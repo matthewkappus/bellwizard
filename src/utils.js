@@ -12,8 +12,11 @@ export async function getTime() {
 
 }
 
-
 export async function setBells(bells) {
+    if (!Array.isArray(bells)) {
+        console.log("setBells needs array, got ", bells)
+        return
+    }
     let time = await getTime();
     var update = [];
     bells.forEach(b => {
@@ -31,4 +34,32 @@ function formatXMLTime(xmlDoc) {
     let t = xmlDoc.getElementsByTagName('timestamp')[0].getAttribute('time');
     let timestamp = parseInt(t) / 1000
     return new Date(timestamp);
+}
+
+export function jsonToMap(j) {
+    let o = JSON.parse(j);
+
+    if (!Array.isArray(o)) {
+        console.error("Could not parse JSON to array: ", j)
+        return
+    }
+
+    var schedules = new Map();
+    o.forEach(s => {
+        schedules.set(s.name, s.bells)
+    });
+    return schedules;
+}
+
+export function mapToJSON(inputMap) {
+    let a = [];
+
+    inputMap.forEach(function (value, key) {
+        a.push({
+            name: key,
+            bells: value
+        })
+    });
+
+    return JSON.stringify(a);
 }

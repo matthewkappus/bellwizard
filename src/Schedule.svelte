@@ -1,8 +1,13 @@
 <script>
-export let selectedSchedule;
-</script>
+  import { stringToMap } from "./util.js";
+  const storageName = "BellWizardSchedules";
 
-<h3>Schedule</h3>
-{#each selectedSchedule as {title, time}}
-  <li>{title} {time}</li>
-{/each}
+  export function saveSchedule(name, bells) {
+    let s = localStorage.getItem(storageName);
+    if (s === "") {
+      console.log("No BellWizardSchedules in localstorage. Creating.");
+    }
+    let m = jsonToMap(m);
+    console.log(m.toString() + "was made");
+  }
+</script>
