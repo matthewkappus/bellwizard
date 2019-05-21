@@ -1,13 +1,10 @@
 <script>
-  import { stringToMap } from "./util.js";
-  const storageName = "BellWizardSchedules";
+  import { jsonToMap } from "./utils.js";
+  import { sched } from "./store.js";
 
-  export function saveSchedule(name, bells) {
-    let s = localStorage.getItem(storageName);
-    if (s === "") {
-      console.log("No BellWizardSchedules in localstorage. Creating.");
-    }
-    let m = jsonToMap(m);
-    console.log(m.toString() + "was made");
-  }
+  export let selectedBells;
+  let schedule;
+  const unsubscribe = sched.subscribe(sched => schedule);
 </script>
+
+{schedule}

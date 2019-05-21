@@ -8,8 +8,6 @@ export async function getTime() {
     } else {
         throw new Error(xml);
     }
-
-
 }
 
 export async function setBells(bells) {
@@ -28,6 +26,20 @@ export async function setBells(bells) {
     return update;
 }
 
+
+export function mapToJSON(inputMap) {
+    let a = [];
+
+    inputMap.forEach(function (value, key) {
+        a.push({
+            name: key,
+            bells: value
+        });
+    });
+
+    return JSON.stringify(a);
+}
+
 function formatXMLTime(xmlDoc) {
     let parser = new DOMParser();
     xmlDoc = parser.parseFromString(xmlDoc, "text/xml");
@@ -36,6 +48,8 @@ function formatXMLTime(xmlDoc) {
     return new Date(timestamp);
 }
 
+// jsonToMap takes a json string in localStorage
+// returns map[schedulename][bells]
 export function jsonToMap(j) {
     let o = JSON.parse(j);
 
@@ -49,17 +63,4 @@ export function jsonToMap(j) {
         schedules.set(s.name, s.bells)
     });
     return schedules;
-}
-
-export function mapToJSON(inputMap) {
-    let a = [];
-
-    inputMap.forEach(function (value, key) {
-        a.push({
-            name: key,
-            bells: value
-        })
-    });
-
-    return JSON.stringify(a);
 }
