@@ -1,0 +1,4 @@
+ {#each savedSchedules as s, i}
+    <!-- <h4 on:click={select}> {s.title}</h4> -->
+    <h4 on:click={() => selectedSchedule.update(n => (n = s))}> {s.title}</h4>
+  {/each}

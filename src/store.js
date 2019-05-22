@@ -1,14 +1,68 @@
 import {
-    writable
+    writable,
+    readable
 } from 'svelte/store';
-const storageName = "BellWizardSchedules";
 
-function loadSchedules() {
-    let s = localStorage.getItem(storageName);
-    if (s == null) {
-        return new Map();
+
+var t = new Date();
+
+export const savedSchedules = [{
+        title: "Schedule 0",
+        bells: [{
+                name: "Opening Bell",
+                time: t.setHours(8)
+            },
+            {
+                name: "Lunch Time",
+                time: t.setHours(11)
+            },
+            {
+                name: "Closing Bell",
+                time: t.setHours(15)
+            },
+        ]
+    },
+    {
+        title: "Schedule 1",
+        bells: [{
+                name: "Opening Bell",
+                time: t.setHours(8)
+            },
+            {
+                name: "Lunch Time",
+                time: t.setHours(11)
+            },
+            {
+                name: "Closing Bell",
+                time: t.setHours(15)
+            },
+        ]
+    },
+    {
+        title: "Schedule 2",
+        bells: [{
+                name: "Opening Bell",
+                time: t.setHours(8)
+            },
+            {
+                name: "Lunch Time",
+                time: t.setHours(11)
+            },
+            {
+                name: "Closing Bell",
+                time: t.setHours(15)
+            },
+        ]
     }
-    return jsonToMap(s);
-}
+]
+export const selectedSchedule = writable({});
 
-export const sched = writable(loadSchedules());
+export const time = readable(new Date(), function start(set) {
+    const interval = setInterval(() => {
+        set(new Date());
+    }, 1000);
+
+    return function stop() {
+        clearInterval(interval);
+    };
+});
