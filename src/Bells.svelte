@@ -8,6 +8,15 @@
   // App -> Schedules -> Schedule -> Bells -> Bell
   onMount(() => startTickers(bells));
 
+  function formatCountdown(distance) {
+    var hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    return `${hours}:${minutes}:${seconds}`;
+  }
   function startTickers(bells) {
     if (bells.length == 0) {
       console.log("no bells to startTickers");
@@ -20,8 +29,8 @@
       const now = new Date();
 
       ts.forEach(t => {
-        console.log(`${t.time} - ${now}`);
-        t.countdown = new Date(t.time - now);
+        // t.countdown = new Date(t.time - now);
+        t.countdown = t.time.getTime() - new Date().getTime();
       });
       tickers = ts;
     }, 1000);
@@ -36,7 +45,7 @@
   {#each tickers as t}
     <li>
       <h4>{t.name}</h4>
-       {t.time} {t.countdown}
+       {t.time.toLocaleTimeString()} Countdown: {formatCountdown(t.countdown)}
     </li>
   {/each}
 </ul>
