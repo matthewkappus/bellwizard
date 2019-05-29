@@ -1,7 +1,5 @@
 <script>
-  import ScheduleList from "./ScheduleList.svelte";
-  import Bell from "./Bell.svelte";
+  import Schedules from "./Schedules.svelte";
 </script>
 
-<Bell />
-<ScheduleList />
+<Schedules />
