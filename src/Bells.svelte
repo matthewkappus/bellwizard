@@ -1,14 +1,18 @@
 <script>
+  import { onMount } from "svelte";
+  import { startTickers } from "./store.js";
   import Bell from "./Bell.svelte";
-  export let bells;
 
-  function formatBells(bs) {
-    return bs;
-  }
+  var tickers = [];
+  // Bells loaded from selected Schedule:
+  // App -> Schedules -> Schedule -> Bells -> Bell
+  export let bells;
+  onMount(function() {
+    // startTickers changes  bells {name: time (int)} -> tickers{name, time (date), countdown}
+    tickers = startTickers(bells);
+  });
 </script>
 
 <ul>
-  {#each formatBells(bells) as b}
-    <li>{b.name}</li>
-  {/each}
+  {#each $tickers as t}{t}{/each}
 </ul>

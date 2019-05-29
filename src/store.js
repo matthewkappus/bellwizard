@@ -3,7 +3,12 @@ import {
     readable
 } from 'svelte/store';
 
-
+import {
+    bellsToTickers
+} from './util.js'
+import {
+    tick
+} from 'svelte/internal';
 var t = new Date();
 
 export const savedSchedules = [{
@@ -66,3 +71,36 @@ export const time = readable(new Date(), function start(set) {
         clearInterval(interval);
     };
 });
+
+export const tickers = readable(ts, function start(set) {
+    const interval = setInterval(() => {
+        const now = new Date();
+        ts.forEach(t => {
+            return t.countdown = t.time - now;
+        })
+        set(ts);
+    }, 1000)
+
+    return function stop() {
+        clearInterval(interval);
+    };
+});
+
+
+export function startTickers(bells) {
+
+    let ts = bellsToTickers(bells);
+    return readable(ts, function start(set) {
+        const interval = setInterval(() => {
+            const now = new Date();
+            ts.forEach(t => {
+                return t.countdown = t.time - now;
+            })
+            set(ts);
+        }, 1000)
+
+        return function stop() {
+            clearInterval(interval);
+        };
+    });
+}
