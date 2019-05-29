@@ -8,7 +8,7 @@
 //     };
 // });
 
-
+// returns {name, time, countdown}
 export function bellsToTickers(bells) {
     let bs = [];
     bells.sort(function (a, b) {
@@ -16,10 +16,9 @@ export function bellsToTickers(bells) {
     });
     bells.forEach(b => {
         // sort, time select
-        var t = new Date(b.time);
         bs.push({
             name: b.name,
-            time: t.toLocaleTimeString(),
+            time: new Date(b.time),
             countdown: new Date(),
         });
     });

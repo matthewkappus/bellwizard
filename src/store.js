@@ -6,9 +6,7 @@ import {
 import {
     bellsToTickers
 } from './util.js'
-import {
-    tick
-} from 'svelte/internal';
+
 var t = new Date();
 
 export const savedSchedules = [{
@@ -72,35 +70,39 @@ export const time = readable(new Date(), function start(set) {
     };
 });
 
-export const tickers = readable(ts, function start(set) {
-    const interval = setInterval(() => {
-        const now = new Date();
-        ts.forEach(t => {
-            return t.countdown = t.time - now;
-        })
-        set(ts);
-    }, 1000)
-
-    return function stop() {
-        clearInterval(interval);
-    };
-});
-
+export let tickers;
 
 export function startTickers(bells) {
+    var ts = bellsToTickers(bells);
+    tickers = readable(ts,
+        function start(set) {
+            const interval = setInterval(() => {
+                const now = new Date();
+                ts.forEach(t => {
+                    t.countdown = t.time - now;
+                })
+                set(ts);
+            }, 1000)
 
-    let ts = bellsToTickers(bells);
-    return readable(ts, function start(set) {
-        const interval = setInterval(() => {
-            const now = new Date();
-            ts.forEach(t => {
-                return t.countdown = t.time - now;
-            })
-            set(ts);
-        }, 1000)
-
-        return function stop() {
-            clearInterval(interval);
-        };
-    });
+            let ts = bellsToTickers(bells);
+            return function stop() {
+                clearInterval(interval);
+            };
+        });
 }
+
+// export const tickers = readable([],
+//     function start(set) {
+//         const interval = setInterval(() => {
+//             const now = new Date();
+//             ts.forEach(t => {
+//                 t.countdown = t.time - now;
+//             })
+//             set(ts);
+//         }, 1000)
+
+//         let ts = bellsToTickers(bells);
+//         return function stop() {
+//             clearInterval(interval);
+//         };
+//     });
