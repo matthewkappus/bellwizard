@@ -12,8 +12,8 @@ var t = new Date();
 export const savedSchedules = [{
         title: "Schedule 0",
         bells: [{
-                name: "Opening Bell",
-                time: t.setHours(8)
+                name: "Clog Toilet",
+                time: t.setHours(7)
             },
             {
                 name: "Lunch Time",

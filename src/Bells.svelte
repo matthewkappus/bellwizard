@@ -1,12 +1,16 @@
 <script>
-  import { onMount } from "svelte";
+  import { afterUpdate } from "svelte";
   import { bellsToTickers } from "./util.js";
   import Bell from "./Bell.svelte";
   // Bells loaded from selected Schedule:
   export let bells;
+  let interval;
   var tickers = [];
   // App -> Schedules -> Schedule -> Bells -> Bell
-  onMount(() => startTickers(bells));
+  afterUpdate(() => {
+    clearInterval(interval);
+    startTickers(bells);
+  });
 
   function formatCountdown(distance) {
     var hours = Math.floor(
@@ -17,6 +21,8 @@
 
     return `${hours}:${minutes}:${seconds}`;
   }
+
+  // startTickers takes bells[{name, time}] adds ticker and sets new ticker every second
   function startTickers(bells) {
     if (bells.length == 0) {
       console.log("no bells to startTickers");
@@ -25,7 +31,7 @@
 
     // returns {name, time, countdown}
     var ts = bellsToTickers(bells);
-    const interval = setInterval(() => {
+    interval = setInterval(() => {
       const now = new Date();
 
       ts.forEach(t => {
