@@ -1,14 +1,4 @@
-// export const time = readable(new Date(), function start(set) {
-//     const interval = setInterval(() => {
-//         set(new Date());
-//     }, 1000);
 
-//     return function stop() {
-//         clearInterval(interval);
-//     };
-// });
-
-// returns {name, time, countdown}
 export function bellsToTickers(bells) {
     let bs = [];
     bells.sort(function (a, b) {

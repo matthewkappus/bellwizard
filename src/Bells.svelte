@@ -35,7 +35,7 @@
 
       ts.forEach(t => {
         // t.countdown = new Date(t.time - now);
-        t.countdown = t.time.getTime() - new Date().getTime();
+        t.countdown = formatCountdown(t.time.getTime() - new Date().getTime());
       });
       tickers = ts;
     }, 1000);
@@ -53,11 +53,8 @@
     <li>
        {t.name}
       <span on:click={() => (clockMode = !clockMode)}>
-        {#if clockMode}
-          {t.time.toLocaleTimeString()}
-        {:else}{formatCountdown(t.countdown)}{/if}
+        {#if clockMode}{t.time.toLocaleTimeString()}{:else}{t.countdown}{/if}
       </span>
-      <!-- {t.name} {t.time.toLocaleTimeString()} {formatCountdown(t.countdown)} -->
 
     </li>
   {/each}
