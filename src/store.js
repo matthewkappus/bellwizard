@@ -1,10 +1,34 @@
 import {
-    writable,
-    readable
+    writable
 } from 'svelte/store';
+import {
+    formatCountdown
+} from './util.js'
 
-var t = new Date();
+export const tickers = writable([]);
 
+// startTickers takes bells[{name, time}] adds ticker and sets new ticker every second
+let interval;
+
+export function startTickers(ts) {
+
+    clearInterval(interval);
+
+    // returns {name, time, countdown}
+    interval = setInterval(() => {
+        const now = new Date();
+
+        ts.forEach(t => {
+            // t.countdown = new Date(t.time - now);
+            t.countdown = formatCountdown(t.time.getTime() - new Date().getTime());
+        });
+        tickers.set(ts);
+    }, 1000);
+
+    return function stop() {
+        clearInterval(interval);
+    };
+}
 
 // parses [{ title, bells: [name, time]}] from localStorage key "BellWizardSchedules"
 export function getSavedSchedules() {
