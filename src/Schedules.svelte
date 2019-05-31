@@ -35,7 +35,7 @@
   <div class="dropdown-content">
     {#each savedSchedules as s}
       <div>
-        <a on:click={() => (selected = s)}>{s.title}</a>
+        <div on:click={() => (selected = s)}>{s.title}</div>
       </div>
     {/each}
   </div>
