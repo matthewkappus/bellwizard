@@ -1,8 +1,8 @@
 <script>
-  import { savedSchedules } from "./store.js";
+  import { saveSchedules } from "./store.js";
   import Schedule from "./Schedule.svelte";
   let selected = {};
-
+  export let savedSchedules = [];
 </script>
 
 <style>
