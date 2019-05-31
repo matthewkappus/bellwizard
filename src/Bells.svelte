@@ -9,7 +9,8 @@
   // App -> Schedules -> Schedule -> Bells -> Bell
   afterUpdate(() => {
     clearInterval(interval);
-    startTickers(bells);
+
+    startTickers(bellsToTickers(bells));
   });
   function formatCountdown(distance) {
     var hours = Math.floor(
@@ -22,14 +23,8 @@
   }
 
   // startTickers takes bells[{name, time}] adds ticker and sets new ticker every second
-  function startTickers(bells) {
-    if (bells.length == 0) {
-      console.log("no bells to startTickers");
-      return;
-    }
-
+  function startTickers(ts) {
     // returns {name, time, countdown}
-    var ts = bellsToTickers(bells);
     interval = setInterval(() => {
       const now = new Date();
 

@@ -1,4 +1,3 @@
-
 export function bellsToTickers(bells) {
     let bs = [];
     bells.sort(function (a, b) {
@@ -12,5 +11,8 @@ export function bellsToTickers(bells) {
             countdown: new Date(),
         });
     });
+    bs.sort(function (a, b) {
+        return a.time - b.time;
+    })
     return bs;
 }
