@@ -44,13 +44,21 @@
       clearInterval(interval);
     };
   }
+
+  var clockMode = true;
 </script>
 
 <ul>
   {#each tickers as t}
     <li>
-      <h4>{t.name}</h4>
-       {t.time.toLocaleTimeString()} Countdown: {formatCountdown(t.countdown)}
+       {t.name}
+      <span on:click={() => (clockMode = !clockMode)}>
+        {#if clockMode}
+          {t.time.toLocaleTimeString()}
+        {:else}{formatCountdown(t.countdown)}{/if}
+      </span>
+      <!-- {t.name} {t.time.toLocaleTimeString()} {formatCountdown(t.countdown)} -->
+
     </li>
   {/each}
 </ul>

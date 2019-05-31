@@ -1,9 +1,8 @@
 <script>
   import Schedules from "./Schedules.svelte";
-  import { getSavedSchedules } from "./store.js"
+  import { getSavedSchedules } from "./store.js";
 
-
-  let savedSchedules = getSavedSchedules()
+  let savedSchedules = getSavedSchedules();
 </script>
 
 <!-- TODO: Navigation > Schedules / Edit Schedules  -->
