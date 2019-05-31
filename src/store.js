@@ -16,8 +16,6 @@ export function startTickers(ts) {
 
     // returns {name, time, countdown}
     interval = setInterval(() => {
-        const now = new Date();
-
         ts.forEach(t => {
             // t.countdown = new Date(t.time - now);
             t.countdown = formatCountdown(t.time.getTime() - new Date().getTime());

@@ -6,14 +6,20 @@
   // Bells loaded from selected Schedule:
   export let bells;
   // App -> Schedules -> Schedule -> Bells -> Bell
+
+  var selectedTicker;
   afterUpdate(() => {
-
     startTickers(bellsToTickers(bells));
+    if ($tickers.length > 0) {
+      selectedTicker = $tickers[0];
+    }
   });
-
-
   var clockMode = true;
 </script>
+
+{#if selectedTicker}
+  <Bell {selectedTicker} />
+{/if}
 
 <ul>
   {#each $tickers as t}
