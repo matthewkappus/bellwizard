@@ -1,4 +1,6 @@
-export const savedSchedules = [{
+var t = new Date();
+
+const saved = [{
         title: "Schedule 0",
         bells: [{
                 name: "Clog Toilet",

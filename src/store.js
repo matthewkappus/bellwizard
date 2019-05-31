@@ -3,10 +3,6 @@ import {
     readable
 } from 'svelte/store';
 
-import {
-    bellsToTickers
-} from './util.js'
-
 var t = new Date();
 
 
@@ -19,73 +15,46 @@ export function getSavedSchedules() {
     }
 
     var s = JSON.parse(scheds);
-    // if (!validSchedules(s)) {
-    //     console.error(" BellWizardSchedules in local storage is invalid:\n" + scheds);
-    //     return
-    // }
+    if (!validSchedules(s)) {
+        console.error(" BellWizardSchedules in local storage is invalid:\n" + scheds);
+        return
+    }
+
+
+    s = updateTime(s)
+    saveSchedules(s)
     return s
 }
 
 // takes [{ title, bells: [name, time]}] and stores as json-encoded string in localStorage
 // under key "BellWizardSchedules"
 export function saveSchedules(schedules) {
-    // if (!validSchedules(schedules)) {
-    //     console.error("Invalid Schedules: Did not save:\n " + JSON.stringify(schedules))
-    // }
+    if (!validSchedules(schedules)) {
+        console.error("Invalid Schedules: Did not save:\n " + JSON.stringify(schedules))
+    }
     localStorage.setItem("BellWizardSchedules", JSON.stringify(schedules))
-    console.log("BellWizardSchedules saved: \n" + localStorage.getItem("BellWizardSchedules"))
 }
 
 function validSchedules(s) {
-    const props = Object.getOwnPropertyNames(s);
+    const props = Object.getOwnPropertyNames(s[0]);
     return (props.includes("title") && props.includes("bells"))
 }
 
-export const selectedSchedule = writable({});
 
-export const time = readable(new Date(), function start(set) {
-    const interval = setInterval(() => {
-        set(new Date());
-    }, 1000);
-
-    return function stop() {
-        clearInterval(interval);
-    };
-});
-
-export let tickers;
-
-export function startTickers(bells) {
-    var ts = bellsToTickers(bells);
-    tickers = readable(ts,
-        function start(set) {
-            const interval = setInterval(() => {
-                const now = new Date();
-                ts.forEach(t => {
-                    t.countdown = t.time - now;
-                })
-                set(ts);
-            }, 1000)
-
-            let ts = bellsToTickers(bells);
-            return function stop() {
-                clearInterval(interval);
+function updateTime(schedules) {
+    for (var i = 0; i < schedules.length; i++) {
+        var bells = schedules[i].bells;
+        var newBells = [];
+        bells.forEach(b => {
+            var n = new Date();
+            var t = new Date(b.time);
+            while (t < n) {
+                t.setHours(t.getHours() + 24)
             };
-        });
+            b.time = t;
+            newBells.push(b)
+        })
+        schedules[i].bells = newBells;
+    }
+    return schedules;
 }
-
-// export const tickers = readable([],
-//     function start(set) {
-//         const interval = setInterval(() => {
-//             const now = new Date();
-//             ts.forEach(t => {
-//                 t.countdown = t.time - now;
-//             })
-//             set(ts);
-//         }, 1000)
-
-//         let ts = bellsToTickers(bells);
-//         return function stop() {
-//             clearInterval(interval);
-//         };
-//     });
