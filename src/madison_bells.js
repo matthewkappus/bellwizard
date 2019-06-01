@@ -68,9 +68,9 @@
  };
 
  export function getRegularSchuedule() {
-     var d = new Date();
      var b = [];
      regular_schedule.bells.forEach(s => {
+         var d = new Date();
          var hm = s.time.split(":")
          d.setHours(hm[0]);
          d.setMinutes(hm[1]);
