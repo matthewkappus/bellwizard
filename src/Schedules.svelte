@@ -24,6 +24,10 @@
   .dropdown:hover .dropdown-content {
     display: block;
   }
+
+  .selected {
+     background-color: #b1afaf;
+  }
 </style>
 
 {#if selected.title}
@@ -35,7 +39,10 @@
   <div class="dropdown-content">
     {#each savedSchedules as s}
       <div>
-        <div on:click={() => (selected = s)}>{s.title}</div>
+        <!-- set s.isSelected = true (others false) -->
+        <div class="{s === selected ? 'selected' : ''}" on:click={() => (selected = s)}>
+          {s.title} 
+        </div>
       </div>
     {/each}
   </div>

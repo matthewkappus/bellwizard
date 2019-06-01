@@ -23,6 +23,8 @@ export function startTickers(ts) {
         ts.forEach(t => {
             // t.countdown = new Date(t.time - now);
             t.countdown = formatCountdown(t.time.getTime() - new Date().getTime());
+            t.isSelected = false;
+            t.isExpired = false;
         });
         tickers.set(ts);
     }, 1000);
@@ -55,8 +57,9 @@ export function saveSchedules(schedules) {
     localStorage.setItem("BellWizardSchedules", JSON.stringify(schedules))
 }
 
+
+// updateTime adds isExpired to bells[{ title, bells: [name, time]}] and sets expired times to next day
 function updateTime(schedules) {
-    console.log("updating " + schedules);
     for (var i = 0; i < schedules.length; i++) {
         var bells = schedules[i].bells;
         var newBells = [];
@@ -64,6 +67,7 @@ function updateTime(schedules) {
             var n = new Date();
             var t = new Date(b.time);
             while (t < n) {
+                t.isExpired = true;
                 t.setHours(t.getHours() + 24)
             };
             b.time = t;

@@ -1,4 +1,4 @@
-<script>
+w<script>
 
     export  let selectedTicker;
 </script>

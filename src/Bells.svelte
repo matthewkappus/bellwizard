@@ -17,14 +17,20 @@
   var clockMode = true;
 </script>
 
+<style>
+  .selected {
+    background-color: #b1afaf;
+  }
+</style>
+
 {#if selectedTicker}
   <Bell {selectedTicker} />
 {/if}
 
 <ul>
   {#each $tickers as t}
-    <li>
-       {t.name}
+    <li class={selectedTicker == t ? 'selected' : ''}>
+       {t.name} (Expired: {t.isExpired} Selected: {t.isSelected})
       <span on:click={() => (clockMode = !clockMode)}>
         {#if clockMode}{t.time.toLocaleTimeString()}{:else}{t.countdown}{/if}
       </span>
